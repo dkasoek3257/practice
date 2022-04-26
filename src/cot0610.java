@@ -1,40 +1,39 @@
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class cot0609 {
+public class cot0610 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
-        int m = sc.nextInt();
+        int c = sc.nextInt();
         int[] arr = new int[n];
         for (int i = 0; i < n; i++) {
             arr[i] = sc.nextInt();
         }
+        Arrays.sort(arr);
         int answer=0;
-        int lt= Arrays.stream(arr).max().getAsInt();
-        int rt=Arrays.stream(arr).sum();
-
+        int lt=1,rt=arr[n-1];
         while(lt<=rt){
             int mid=(lt+rt)/2;
-            if(count(arr,mid)<=m){
+            if(count(arr,mid)>=c){
                 answer=mid;
-                rt=mid-1;
-            }else{
                 lt=mid+1;
+            }else {
+                rt=mid-1;
             }
         }
         System.out.println(answer);
     }
 
-    private static int count(int[] arr, int capacity) {
-        int cnt=1,sum=0;
-        for(int x:arr){
-            if(sum+x>capacity){
+    private static int count(int[] arr, int dist) {
+        int cnt=1;
+        int ep=arr[0];
+        for(int i=1; i<arr.length; i++){
+            if(arr[i]-ep>=dist){
+                ep=arr[i];
                 cnt++;
-                sum=x;
             }
-            else sum+=x;
         }
-    return cnt;
+        return cnt;
     }
 }
